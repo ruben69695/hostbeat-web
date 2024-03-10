@@ -1,4 +1,4 @@
-using hostbeat_web.Components;
+using HostbeatWeb.Components;
 
 var builder = WebApplication.CreateBuilder(args);
 
