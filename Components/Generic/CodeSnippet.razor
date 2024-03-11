@@ -1,0 +1,18 @@
+﻿@inject IJSRuntime Js
+<pre class="code">
+    <code class="@Language">
+        @ChildContent
+    </code>
+</pre>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string Language { get; set; } = "csharp";
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        // TODO: This has to be improved because the js called function can be improved for better performance. Avoiding unnecessary calls.
+        var module = await Js.InvokeAsync<IJSObjectReference>("import", "./Components/Generic/CodeSnippet.razor.js");
+        await module.InvokeVoidAsync("highlightSnippet");
+    }
+}

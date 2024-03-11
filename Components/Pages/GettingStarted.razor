@@ -1,6 +1,43 @@
 ﻿@page "/getting-started"
+@rendermode InteractiveServer
 
-<h3>Getting Started</h3>
-
-@code {
-}
+<div class="py-5 px-5">
+    <h1 id="getting-started">Getting Started</h1>
+    <p>Before starting monitoring your computers from the mobile app, you have to install the hostbeat client application in the computer. This client app sends heartbeats to the platform indicating that is online and available.</p>
+    <p>The client is currently available in the major known platforms, like Windows, MacOS and Linux. There are two different official clients, the first one is a multiplatform command line tool and the second one is an exclusive Windows App, both application do the same in different ways.</p>
+    <h2 id="using-the-cli-tool">Using the CLI tool</h2>
+    <p>This tutorial explains how to use the command line client tool in Linux and MacOS</p>
+    <h3 id="installation">Installation</h3>
+    <p>Download the desired version of the tool, this is available to download in the <a href="https://github.com/ruben69695/hostbeat-cli/releases">GitHub official repository</a> be free to choose the desired version but the higher and recent is recommended.</p>
+    <p>The correct script to install it on Linux and Mac is the <code>install.sh</code> script. So download, open a terminal and execute the next command:</p>
+    <CodeSnippet Language="bash">sudo ./install.sh</CodeSnippet>
+    <p>Once installed, be sure to close the terminal and open a new one. And now we can interact with the hostbeat client directly, try to open the hostbeat help function executing the following command:</p>
+    <CodeSnippet Language="bash">hostbeat --help</CodeSnippet>
+    <p>Now the command line client is installed and available in our machine.</p>
+    <h3 id="using">Using</h3>
+    <p>Here we have several options to send heartbeats with this tool. The first one is set the settings and start the daemon and let the tool sends the heartbeats with the desired interval. The second one is send one time a heartbeat and use the system cronjob to repeat the same process every x minutes.</p>
+    <h4 id="daemon-way">Daemon Way</h4>
+    <p>First of all set the correct configuration, we are going to set the host token, this is a unique token that identifies our computer and is available if you access to edit the host in the mobile app. So copy it and paste it:</p>
+    <CodeSnippet Language="bash">hostbeat heartbeat config --set-token &lt;your-big-token-goes-here/&gt;</CodeSnippet>
+    <p>Now we can start the daemon using the next command, and is going to send heartbeats every minute.</p>
+    <CodeSnippet Language="bash">hostbeat heartbeat daemon</CodeSnippet>
+    <p>Now if no error is returned to the command line, refresh the list on the hostbeat mobile app and you can see that the host has changed his status and is now available and online.</p>
+    <h4 id="cronjob-way-recommended">Cronjob Way (recommended)</h4>
+    <p>This way is not necessary to set any configuration because we can set it on the fly passing all necessary information as an argument. But we have to create an script file to make it available to the cron.</p>
+    <p>
+        I recommend you to create a directory under your <code>home</code> with the name <code>hostbeat-client</code>. Create a shell file in the new directory with the name of <code>heartbeat.sh</code>.
+        Inside this file put the following text and replace the text <code>&lt;your-big-token-goes-here/&gt;</code> for your host token, you can find this token in the app where you edit a host.
+    </p>
+    <CodeSnippet Language="bash">#!/bin/bash
+PATH=/usr/local/bin/:/usr/bin:/bin
+hostbeat heartbeat send --use-token &lt;your-big-token-goes-here/&gt;</CodeSnippet>
+    <p>Make the script file executable:</p>
+    <CodeSnippet Language="bash">chmod 700 heartbeat.sh</CodeSnippet>
+    <p>Next we will be using the cron process to make the script get run every minute</p>
+    <CodeSnippet Language="bash">crontab -e</CodeSnippet>
+    <p>Copy this text and paste it at the bottom of the crontab, save and exit. Remember to let a blank line at the end of the file.</p>
+    <CodeSnippet Language="bash">*/1 * * * * ~/hostbeat-client/heartbeat.sh &gt;/dev/null 2&gt;&amp;1</CodeSnippet>
+    <p>Now lets test the script:</p>
+    <CodeSnippet Language="bash">sh ~/hostbeat-client/heartbeat.sh</CodeSnippet>
+    <p>Now if no error is returned to the command line, refresh the list on the hostbeat mobile app and you can see that the host has changed his status and is now available and online and a heartbeat it going to be sended every minute.</p>
+</div>
