@@ -50,7 +50,7 @@ Project also is available to run on Docker
 - Windows 11
 - Jetbrains Rider
 
-- ## 🚀 Runs on
+## 🚀 Runs on
 - Linux
 - Windows
 - MacOS
