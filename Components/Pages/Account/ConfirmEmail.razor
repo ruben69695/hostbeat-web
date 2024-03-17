@@ -1,0 +1,43 @@
+﻿@page "/account/confirm-email/"
+@using HostbeatWeb.Services.Interfaces
+@using HostbeatWeb.Components.Account
+@using HostbeatWeb.Services.Results
+@inject IHostbeatApiService HostbeatService
+
+<div class="text-center pt-md-5 pb-md-5">
+    <div style="height: 10rem; width: 100%; display: block;" ></div>
+    
+    @if (string.IsNullOrWhiteSpace(Email) || string.IsNullOrWhiteSpace(Token))
+    {
+        <NotFound />
+    }
+    else if (_confirmationResult != null)
+    {
+        <EmailConfirmedMessage ConfirmationResult="@_confirmationResult" />
+    }
+    
+    <div style="height:5rem; width: 100%; display: block;"></div>
+</div>
+
+@code {
+    
+    [SupplyParameterFromQuery]
+    [Parameter]
+    public string? Email { get; set; }
+    
+    [SupplyParameterFromQuery]
+    [Parameter]
+    public string? Token { get; set; }
+
+    private ConfirmEmailResult? _confirmationResult;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (string.IsNullOrWhiteSpace(Email) || string.IsNullOrWhiteSpace(Token))
+        {
+            return;
+        }
+        
+        _confirmationResult = await HostbeatService.ConfirmEmail(Email, Token);
+    }
+}

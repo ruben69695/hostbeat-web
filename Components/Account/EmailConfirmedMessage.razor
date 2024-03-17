@@ -1,0 +1,25 @@
+﻿@using HostbeatWeb.Services.Results
+
+@if (ConfirmationResult.Success)
+{
+    <h1 class="display-5 py-2">Congratulations</h1>
+    <p class="fw-light fs-5">Your email has been confirmed and now your registration is complete.</p>
+    <p><i class="bi-check-circle" style="color: yellowgreen; font-size: 10rem;"></i></p>
+    return;
+}
+
+@if (ConfirmationResult.FailureCode == (int)ConfirmEmailErrorCodes.AlreadyConfirmed)
+{
+    <h1 class="display-5 py-2">Your email was already confirmed</h1>
+    <p><i class="bi-emoji-wink" style="color: yellowgreen; font-size: 10rem;"></i></p>
+    return;
+}
+
+<h1 class="display-5 py-2">An error occurred confirming your email</h1>
+<p class="fw-light fs-5">Please contact with support.</p>
+<p><i class="bi-x-circle" style="color: darkred; font-size: 10rem;"></i></p>
+
+@code {
+    [Parameter]
+    public required ConfirmEmailResult ConfirmationResult { get; set; }
+}
