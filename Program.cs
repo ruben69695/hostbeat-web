@@ -1,13 +1,18 @@
 using HostbeatWeb.Components;
+using HostbeatWeb.Configurations;
+using HostbeatWeb.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Add configurations
+builder.Services.AddConfigurations();
+
 // Add services to the container.
 builder.Services.AddHealthChecks();
+builder.Services.AddServices();
 
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
-
 
 var app = builder.Build();
 
