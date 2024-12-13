@@ -18,9 +18,9 @@
     <p>Here we have several options to send heartbeats with this tool. The first one is set the settings and start the daemon and let the tool sends the heartbeats with the desired interval. The second one is send one time a heartbeat and use the system cronjob to repeat the same process every x minutes.</p>
     <h4 id="daemon-way">Daemon Way</h4>
     <p>First of all set the correct configuration, we are going to set the host token, this is a unique token that identifies our computer and is available if you access to edit the host in the mobile app. So copy it and paste it:</p>
-    <CodeSnippet Language="bash">hostbeat heartbeat config --set-token &lt;your-big-token-goes-here/&gt;</CodeSnippet>
+    <CodeSnippet Language="bash">hostbeat client config --set-token &lt;your-big-token-goes-here/&gt;</CodeSnippet>
     <p>Now we can start the daemon using the next command, and is going to send heartbeats every minute.</p>
-    <CodeSnippet Language="bash">hostbeat heartbeat daemon</CodeSnippet>
+    <CodeSnippet Language="bash">hostbeat client daemon</CodeSnippet>
     <p>Now if no error is returned to the command line, refresh the list on the hostbeat mobile app and you can see that the host has changed his status and is now available and online.</p>
     <h4 id="cronjob-way-recommended">Cronjob Way (recommended)</h4>
     <p>This way is not necessary to set any configuration because we can set it on the fly passing all necessary information as an argument. But we have to create an script file to make it available to the cron.</p>
